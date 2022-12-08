@@ -23,22 +23,26 @@ class CategoryItemsData extends ConsumerWidget {
               if (snapshot.hasData) {
                 CategoryItemModel categID = snapshot.data;
                 return Column(
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: categID.imageLink!,
-                    height: 250.h,
-                    fit: BoxFit.cover,
-                  ),
-                  ListTile(
-                    title: Text(categID.name!),
-                    subtitle: Text(categID.description!),
-                    leading: Text("${categID.id}"),
-                    trailing: Text("${categID.price}"),
-                  )
-                ],
-              );
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: categID.imageLink!,
+                      height: 250.h,
+                      fit: BoxFit.cover,
+                    ),
+                    ListTile(
+                      title: Text(categID.name!),
+                      subtitle: Text(categID.description!),
+                      leading: Text("${categID.id}"),
+                      trailing: Text("${categID.price}"),
+                    )
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
               }
-              
+
               return CircularProgressIndicator();
             },
           ),
