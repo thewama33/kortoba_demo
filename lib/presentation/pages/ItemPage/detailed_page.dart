@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/appTheme.dart';
 import 'package:kortoba_demo/core/colors.dart';
-import 'package:kortoba_demo/models/CategoryModel/category_items.dart';
 import 'package:kortoba_demo/presentation/pages/CartPage/cart_page.dart';
 import 'package:kortoba_demo/presentation/components/base/default_button.dart';
 
@@ -57,7 +56,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         StretchMode.blurBackground
                       ],
                       background: Image.network(
-                        categList[0].imageLink!,
+                        "categList[0].imageLink!",
                         height: 250.h,
                         width: double.infinity,
                         fit: BoxFit.fill,
@@ -116,7 +115,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                       children: [
                         ListTile(
                           title: Text(
-                            categList[0].name!,
+                            "categList[0].name!",
                             style: textTheme().headline1?.copyWith(
                                   fontSize: 18,
                                   color: Colors.black,

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kortoba_demo/models/CategoryModel/category_items.dart';
-import 'package:provider/provider.dart';
 
 class CartPage extends StatelessWidget {
    CartPage({Key? key}) : super(key: key);
@@ -19,8 +17,8 @@ class CartPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.08,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Text("My cart"),
+                    children:const [
+                       Text("My cart"),
                       Text("Total items: cartProducts.itemsLength"),
                     ],
                   ),

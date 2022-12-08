@@ -15,8 +15,8 @@ class AppCache {
 
   AppCache._private();
 
-  Future<void> init() async {
-    _prefs ??= await SharedPreferences.getInstance();
+ Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
   Future<void> logout() async {

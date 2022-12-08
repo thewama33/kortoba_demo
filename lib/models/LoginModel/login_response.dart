@@ -1,10 +1,12 @@
 class LoginResponse {
   String? refresh;
   String? access;
+ 
 
   LoginResponse({this.refresh, this.access});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
+    
     refresh = json['refresh'];
     access = json['access'];
   }

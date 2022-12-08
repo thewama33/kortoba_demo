@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kortoba_demo/presentation/pages/LoginPage/login_page.dart';
+import 'package:kortoba_demo/core/debug_prints.dart';
+import 'package:kortoba_demo/presentation/components/base/default_button.dart';
+import 'package:kortoba_demo/providers/category_provider.dart';
 import 'core/appStrings.dart';
+import 'core/appTheme.dart';
+import 'presentation/components/base/bottom_navigation.dart';
 import 'presentation/pages/CartPage/cart_page.dart';
 import 'presentation/pages/CategoryPage/category_page.dart';
 import 'presentation/pages/FavoritePage/favorite_page.dart';
 import 'presentation/pages/HomePage/home_page.dart';
 import 'presentation/pages/ItemPage/detailed_page.dart';
+import 'presentation/pages/LoginPage/login_page.dart';
 import 'presentation/pages/ProfilePage/profile_page.dart';
-
-import 'core/appTheme.dart';
-
-import 'presentation/components/base/bottom_navigation.dart';
+import 'services/local/persistence.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +24,12 @@ void main() async {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp
   ]);
-  runApp(KortobaStoreApp());
+
+  AppCache.instance.init().then((value) {
+    runApp(ProviderScope(
+      child: KortobaStoreApp(),
+    ));
+  });
 }
 
 class KortobaStoreApp extends StatelessWidget {
@@ -40,8 +48,10 @@ class KortobaStoreApp extends StatelessWidget {
             title: AppStrings.appTitle,
             debugShowCheckedModeBanner: false,
             theme: theme(),
-            home: const Scaffold(
-              body: MainScreen(),
+            home: Scaffold(
+              body: AppCache.instance.getApiToken() == null
+                  ? LoginPage()
+                  : MainScreen(),
             ),
           );
         });
@@ -60,10 +70,15 @@ class _MainScreenState extends State<MainScreen> {
       PageController(initialPage: 0, keepPage: true);
 
   int currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       bottomNavigationBar: BottomNavBarRaisedInset(
           OnhomePress: () => goToPage(0),
           OnfavoritePress: () => goToPage(1),
@@ -80,12 +95,21 @@ class _MainScreenState extends State<MainScreen> {
         },
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          LoginPage(),
-          const ProductDetailPage(),
+          Container(child: Consumer(
+            builder: (context, ref, child) {
+              return DefaultButton(
+                text: "Get Category",
+                onPressed: () {
+                  ref.read(categoryProvider).getCategory();
+                },
+              );
+            },
+          )),
           HomePage(),
+          const ProductDetailPage(),
           const FavoritePage(),
+          CategoryPage(),
           CartPage(),
-          const CategoryPage(),
           const ProfilePage(),
         ],
       ),

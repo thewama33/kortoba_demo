@@ -8,6 +8,7 @@ import 'parser.dart';
 class NetworkManager {
   late Dio dio;
   CancelToken? cancelToken;
+  
 
   Map<String, dynamic> headers = {
     HttpHeaders.acceptHeader: "application/json",
@@ -15,7 +16,6 @@ class NetworkManager {
     HttpHeaders.cacheControlHeader: "no-cache",
     HttpHeaders.acceptEncodingHeader: "gzip, deflate, br",
     HttpHeaders.connectionHeader: "keep-alive",
-    
   };
 
   Map<String, dynamic> headersFile = {
@@ -23,9 +23,13 @@ class NetworkManager {
   };
 
   NetworkManager({this.cancelToken}) {
-    dio = new Dio();
-    dio.options =
-        BaseOptions(headers: headers, connectTimeout: 60*1000, receiveTimeout: 60*1000,);
+    dio =  Dio();
+    dio.options = BaseOptions(
+    
+      headers: headers,
+      connectTimeout: 60 * 1000,
+      receiveTimeout: 60 * 1000,
+    );
     dio.interceptors.add(LogInterceptor(
         requestBody: true,
         request: true,
@@ -45,11 +49,7 @@ class NetworkManager {
         headers['Authorization'] = "Bearer $token";
       }
     }
-/*
-    var lang = AppCache.instance.getLanguage();
-    if (lang != null) {
-      headers['Accept-Language'] = lang;
-    }*/
+
   }
 
   void _updateHeadersFile() {
@@ -64,7 +64,7 @@ class NetworkManager {
   Future<T?> get<T>(String url, {Map<String, dynamic>? params}) async {
     _updateHeaders();
     print(headers);
-    if (params == null) params = {};
+    params ??= {};
     print(params);
 
     Response response = await dio.get(url,
@@ -79,7 +79,7 @@ class NetworkManager {
   Future<List<T>?> getList<T>(String url,
       {Map<String, dynamic>? params, bool? needToken}) async {
     if (needToken != null && needToken) _updateHeaders();
-    if (params == null) params = {};
+    params ??= {};
 
     Response response = await dio.get(url,
         queryParameters: params,
@@ -89,8 +89,8 @@ class NetworkManager {
   }
 
   Future<T?> post<T>(String url, {Map<String, dynamic>? body}) async {
-    _updateHeaders();
-    if (body == null) body = {};
+    //_updateHeaders();
+    body ??= {};
     print(body);
 
     var formData = json.encode(body);
@@ -101,9 +101,10 @@ class NetworkManager {
 
     return parseResponse<T>(response);
   }
+
   Future<T?> put<T>(String url, {String? body}) async {
     _updateHeaders();
-    if (body == null) body = "";
+    body ??= "";
 
     var formData = json.encode(body);
     print(formData);
@@ -130,7 +131,7 @@ class NetworkManager {
 
   Future<T?> patch<T>(String url, {Map<String, dynamic>? body}) async {
     _updateHeaders();
-    if (body == null) body = {};
+    body ??= {};
 
     Response response = await dio.patch(url,
         queryParameters: body,
@@ -142,7 +143,7 @@ class NetworkManager {
 
   Future<T?> delete<T>(String url, {Map<String, dynamic>? params}) async {
     _updateHeaders();
-    if (params == null) params = {};
+    params ??= {};
 //    print(params);
 
     Response response = await dio.delete(url,

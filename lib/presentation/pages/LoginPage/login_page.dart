@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kortoba_demo/core/end_points.dart';
+import 'package:kortoba_demo/providers/login_provider.dart';
+
 import '../../../core/appStrings.dart';
 import '../../../core/appTheme.dart';
-import '../../../models/LoginModel/login_model.dart';
+import '../../../core/debug_prints.dart';
+import '../../../services/local/persistence.dart';
 import '../../components/base/default_button.dart';
-
 import '../../components/base/titled_text_formfield.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
 
-class _LoginScreenState extends State<LoginPage> {
-  GlobalKey<FormState> _textFormState = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+class LoginPage extends ConsumerWidget {
+  LoginPage({super.key});
+
+  final GlobalKey<FormState> _textFormState = GlobalKey<FormState>();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool obscureText = true;
 
-  LoginModel? model;
   var maxSpacer = 48.verticalSpace;
   var minSpacer = 20.verticalSpace;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
+
+    var provider = ref.read(loginProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -56,24 +58,24 @@ class _LoginScreenState extends State<LoginPage> {
                     AppStrings.signInSubTitle,
                     style: textTheme().headline2,
                   ),
+                  Text(
+                    AppCache.instance.getApiToken() ?? 'No Token',
+                    style: textTheme().headline2,
+                  ),
                   maxSpacer,
                   InputFieldWidget(
-                    
                     labeltext: AppStrings.userName,
-                    
                     height: 80.h,
                     width: size.width - 60,
-                    controller: emailController,
+                    controller: usernameController,
                     lines: 1,
                     obscure: false,
                     keyboardType: TextInputType.text,
                     validationText: AppStrings.validationError,
                     onChanged: (text) {
-                      setState(() {
-                        model?.username = text;
-                        print(model?.username);
-                        print(text);
-                      });
+                      usernameController.text = text;
+
+                      printInfo(usernameController.text);
                     },
                   ),
                   minSpacer,
@@ -88,9 +90,7 @@ class _LoginScreenState extends State<LoginPage> {
                         size: 28,
                       ),
                       onPressed: () {
-                        setState(() {
-                          obscureText = !obscureText;
-                        });
+                        obscureText = !obscureText;
                       },
                     ),
                     height: 80.h,
@@ -101,10 +101,8 @@ class _LoginScreenState extends State<LoginPage> {
                     keyboardType: TextInputType.text,
                     validationText: AppStrings.validationError,
                     onChanged: (text) {
-                      setState(() {
-                        model?.password = text;
-                        print(model?.password);
-                      });
+                      passwordController.text = text;
+                      printInfo(passwordController.text);
                     },
                   ),
                   minSpacer,
@@ -132,9 +130,12 @@ class _LoginScreenState extends State<LoginPage> {
                   DefaultButton(
                     text: AppStrings.buttonSignIn,
                     onPressed: () {
-                      if (_textFormState.currentState!.validate()) {
-                        print(model);
-                      }
+                      print(usernameController.text);
+                      print(passwordController.text);
+                      print(Endpoints.POST_LOGIN_API);
+
+                      provider.requestLogin(
+                          usernameController.text, passwordController.text);
                     },
                   ),
                   minSpacer,

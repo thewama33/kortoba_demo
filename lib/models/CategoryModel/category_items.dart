@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../presentation/components/animation/parallax_delegate.dart';
+import '../../presentation/pages/CategoryPage/category_by_Id.dart';
 import 'category_model.dart';
 
 class CategoryListItem extends StatelessWidget {
@@ -20,18 +21,27 @@ class CategoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RPadding(
-      padding: REdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-      child: AspectRatio(
-        aspectRatio: 8 / 4,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16.r),
-          child: Stack(
-            children: [
-              _buildParallaxBackground(context),
-              _buildGradient(),
-              _buildTitleAndSubtitle(),
-            ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CategoryItemsData(id: int.parse(id!),),
+            ));
+      },
+      child: RPadding(
+        padding: REdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+        child: AspectRatio(
+          aspectRatio: 8 / 4,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16.r),
+            child: Stack(
+              children: [
+                _buildParallaxBackground(context),
+                _buildGradient(),
+                _buildTitleAndSubtitle(),
+              ],
+            ),
           ),
         ),
       ),

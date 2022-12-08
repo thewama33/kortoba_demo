@@ -6,7 +6,7 @@ import '../../../core/appTheme.dart';
 class DefaultButton extends StatelessWidget {
   DefaultButton({
     Key? key,
-    this.text,
+    required this.text,
     required this.onPressed,
     this.color,
   }) : super(key: key);

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../dummy_data.dart';
-
 class HomePopularList extends StatefulWidget {
   const HomePopularList({Key? key}) : super(key: key);
 
@@ -60,36 +58,36 @@ class _HomePopularListState extends State<HomePopularList> {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(popularList[i].title),
+                            children: const [
+                              Text("popularList[i].title"),
                               Text(
-                                'Rp ${popularList[i].price}',
-                                style: const TextStyle(
+                                'Rp ${"popularList[i].price"}',
+                                style:  TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
                               ),
                             ],
                           ),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                popularList[i].favorite =
-                                    !popularList[i].favorite;
-                              });
-                            },
-                            icon: popularList[i].favorite
-                                ? const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                    size: 18,
-                                  )
-                                : const Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.black,
-                                    size: 18,
-                                  ),
-                          ),
+                          // IconButton(
+                          //   onPressed: () {
+                          //     setState(() {
+                          //       // popularList[i].favorite =
+                          //       //     !popularList[i].favorite;
+                          //     });
+                          //   },
+                          //   icon: popularList[i].favorite
+                          //       ? const Icon(
+                          //           Icons.favorite,
+                          //           color: Colors.red,
+                          //           size: 18,
+                          //         )
+                          //       : const Icon(
+                          //           Icons.favorite_border,
+                          //           color: Colors.black,
+                          //           size: 18,
+                          //         ),
+                          // ),
                         ],
                       ),
                     ),

@@ -1,25 +1,25 @@
-class CategoryModel {
+class CategoryResponseModel {
   int? count;
-  Null? next;
-  Null? previous;
+  dynamic next;
+  dynamic previous;
   List<Results>? results;
 
-  CategoryModel({this.count, this.next, this.previous, this.results});
+  CategoryResponseModel({this.count, this.next, this.previous, this.results});
 
-  CategoryModel.fromJson(Map<String, dynamic> json) {
+  CategoryResponseModel.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(Results.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['count'] = this.count;
     data['next'] = this.next;
     data['previous'] = this.previous;

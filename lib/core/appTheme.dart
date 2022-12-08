@@ -10,8 +10,7 @@ ThemeData theme() {
       appBarTheme: appBarTheme(),
       iconTheme: iconTheme(),
       bottomNavigationBarTheme: bottomNavigationBarTheme(),
-
-      // primaryColor: kPrimaryColor,
+      primaryColor: kPrimaryColor,
       bannerTheme:
           const MaterialBannerThemeData(backgroundColor: kPrimaryColor),
       textTheme: textTheme(),
@@ -25,10 +24,10 @@ ThemeData theme() {
 
 BottomNavigationBarThemeData bottomNavigationBarTheme() {
   return BottomNavigationBarThemeData(
-        backgroundColor: kSecondaryColor,
-        selectedIconTheme: iconTheme(),
-        unselectedIconTheme: iconTheme(),
-        selectedItemColor: kSecondaryColor);
+      backgroundColor: kSecondaryColor,
+      selectedIconTheme: iconTheme(),
+      unselectedIconTheme: iconTheme(),
+      selectedItemColor: kSecondaryColor);
 }
 
 IconThemeData iconTheme() =>
@@ -92,12 +91,13 @@ InputDecorationTheme inputDecorationTheme() {
   );
   return InputDecorationTheme(
     labelStyle:
-        TextStyle(color: kTextColor, fontSize: 16, fontFamily: "Tajawal"),
+        const TextStyle(color: kTextColor, fontSize: 16, fontFamily: "Tajawal"),
     fillColor: Colors.white,
     floatingLabelBehavior: FloatingLabelBehavior.always,
     contentPadding: REdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
     errorStyle: TextStyle(
         color: Colors.red,
+        
         fontWeight: FontWeight.bold,
         fontSize: 14.sp,
         fontFamily: "Tajawal"),
