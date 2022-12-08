@@ -14,32 +14,34 @@ class CategoryItemsData extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var provider = ref.read(categoryProvider);
-    return Container(
-      child: Center(
-        child: FutureBuilder<CategoryItemModel?>(
-          future: provider.getCategoriesByID(id),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              CategoryItemModel categID = snapshot.data;
-              return Column(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: categID.imageLink!,
-                  height: 250.h,
-                  fit: BoxFit.cover,
-                ),
-                ListTile(
-                  title: Text(categID.name!),
-                  subtitle: Text(categID.description!),
-                  leading: Text("${categID.id}"),
-                  trailing: Text("${categID.price}"),
-                )
-              ],
-            );
-            }
-            
-            return CircularProgressIndicator();
-          },
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: FutureBuilder<CategoryItemModel?>(
+            future: provider.getCategoriesByID(id),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                CategoryItemModel categID = snapshot.data;
+                return Column(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: categID.imageLink!,
+                    height: 250.h,
+                    fit: BoxFit.cover,
+                  ),
+                  ListTile(
+                    title: Text(categID.name!),
+                    subtitle: Text(categID.description!),
+                    leading: Text("${categID.id}"),
+                    trailing: Text("${categID.price}"),
+                  )
+                ],
+              );
+              }
+              
+              return CircularProgressIndicator();
+            },
+          ),
         ),
       ),
     );
