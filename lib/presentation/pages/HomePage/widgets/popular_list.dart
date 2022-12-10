@@ -1,8 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kortoba_demo/core/colors.dart';
-import 'package:kortoba_demo/presentation/components/base/item_card.dart';
 import 'package:kortoba_demo/providers/home_provider.dart';
 
 class HomePopularList extends ConsumerWidget {
@@ -13,12 +12,43 @@ class HomePopularList extends ConsumerWidget {
     var provider = ref.read(productsProvider);
     return SliverToBoxAdapter(
         child: provider.whenOrNull(
-      data: (data) => SocialPictureGroup(
-        width: 100.w,
-        color: kPrimaryColor,
-        onTap: () {},
-        imgUrl: data!.results![0].imageLink!,
-        title: data.results![0].name!,
+      data: (data) => ListView(
+        shrinkWrap: true,
+        addAutomaticKeepAlives: true,
+        physics: const NeverScrollableScrollPhysics(),
+        //scrollDirection: Axis.horizontal,
+        children: [
+          ...List.generate(
+              data?.results?.length ?? 0,
+              (i) => Card(
+                    child: Container(
+                      width: 100.w,
+                      height: 350.h,
+                      child: Column(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: data!.results![i].imageLink!,
+                            height: 200,
+                            fit: BoxFit.contain,
+                          ),
+                          ListTile(
+                            title: Text(
+                              data.results![i].name!,
+                            ),
+                            subtitle: Text(
+                              data.results![i].description!,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            leading: CircleAvatar(
+                                child: Text(data.results![i].rate!)),
+                            trailing: Text(data.results![i].price!),
+                          ),
+                          20.verticalSpace
+                        ],
+                      ),
+                    ),
+                  ))
+        ],
       ),
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Text(error.toString()),

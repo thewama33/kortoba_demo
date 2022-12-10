@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
-import 'package:kortoba_demo/presentation/components/base/default_button.dart';
 import '../../components/base/appBar.dart';
-import '../../components/base/overlays.dart';
 import 'widgets/category_list.dart';
 import 'widgets/category_title.dart';
 import 'widgets/feed_news.dart';
@@ -12,7 +10,19 @@ import 'widgets/popular_list.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/top_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -10,25 +10,25 @@ class ItemCard extends StatelessWidget {
   String courseName;
   String courseInfo;
   String coursePrice;
-void Function()? onTap;
+  void Function()? onTap;
 
-  ItemCard({
-    Key? key,
-    required this.imgUrl,
-    required this.courseName,
-    required this.courseInfo,
-    required this.coursePrice,
-    this.onTap
-  }) : super(key: key);
+  ItemCard(
+      {Key? key,
+      required this.imgUrl,
+      required this.courseName,
+      required this.courseInfo,
+      required this.coursePrice,
+      this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Card(
-          color:const  Color(0xFFEDF1F1),
+          color: const Color(0xFFEDF1F1),
           child: RPadding(
-            padding:  REdgeInsets.all(8.0.r),
+            padding: REdgeInsets.all(8.0.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -55,7 +55,7 @@ void Function()? onTap;
                                     fontWeight: FontWeight.bold)),
                           ),
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: 4.0.h,
                         ),
                         Text(courseInfo,
@@ -75,8 +75,6 @@ void Function()? onTap;
   }
 }
 
-
-
 class SocialPictureGroup extends StatelessWidget {
   const SocialPictureGroup({
     Key? key,
@@ -86,7 +84,7 @@ class SocialPictureGroup extends StatelessWidget {
     required this.onTap,
     this.width = 400,
   }) : super(key: key);
-  
+
   final String imgUrl;
   final String title;
   final Color color;
@@ -95,42 +93,49 @@ class SocialPictureGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: () {
-              onTap();
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: width,
-                  child: Image.network(
-                    imgUrl,
-                    fit: BoxFit.fitWidth,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(22)),
-                    // color: Colors.red
-                  ),
-                  clipBehavior: Clip.antiAlias,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () {
+            onTap();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: width,
+                child: CachedNetworkImage(
+                  imageUrl: imgUrl,
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(
-                  height: 10,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(22)),
+                  // color: Colors.red
                 ),
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+                clipBehavior: Clip.antiAlias,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                title,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Container( width: width, child: LikeListTile(title: "Andre Hirata", likes: "130", subtitle: "103 Reviews", color: color,))
-        ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+            width: width,
+            child: LikeListTile(
+              title: "Andre Hirata",
+              likes: "130",
+              subtitle: "103 Reviews",
+              color: color,
+            ))
+      ],
     );
   }
 }
@@ -167,7 +172,7 @@ class LikeListTile extends StatelessWidget {
       title: Text(title),
       subtitle: Row(
         children: [
-          Icon(Icons.favorite, color: Colors.orange,size:15),
+          Icon(Icons.favorite, color: Colors.orange, size: 15),
           SizedBox(width: 2),
           Text(likes),
           Container(

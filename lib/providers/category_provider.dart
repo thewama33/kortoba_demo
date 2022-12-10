@@ -48,6 +48,6 @@ final categoryProvider = ChangeNotifierProvider<CategoryProvider>((ref) {
 });
 
 final categItemProvider = FutureProvider<CategoryItemModel>((ref) async {
- CategoryItemModel? model = await ref.read(categoryProvider).getCategoriesByID(1);
+ CategoryItemModel? model = await ref.watch(categoryProvider.notifier).getCategoriesByID(1);
   return model!;
 });

@@ -95,31 +95,3 @@ class CategoryListItem extends StatelessWidget {
     );
   }
 }
-
-List<Results> categList = [
-  Results(
-      id: 1,
-      name: "طعام",
-      imageLink:
-          "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/assortment-of-colorful-ripe-tropical-fruits-top-royalty-free-image-995518546-1564092355.jpg"),
-  Results(
-      id: 2,
-      name: "ملابس",
-      imageLink:
-          "https://assets.weforum.org/article/image/responsive_big_webp_YlqprZMVrDcJUXbdjc5rAP6uqoO_YT1xZNby3HjH_KM.webp"),
-  Results(
-      id: 3,
-      name: "هواتف محموله",
-      imageLink:
-          "https://www.91-cdn.com/hub/wp-content/uploads/2021/12/moto-edge-x30-specs-feat-2-696x365.jpg"),
-  Results(
-      id: 4,
-      name: "اجهزه كهربائيه",
-      imageLink:
-          "https://cyclingmagazine.ca/wp-content/uploads/2021/01/zwift_devices-1200x675.jpg"),
-  Results(
-      id: 5,
-      name: "فواكه",
-      imageLink:
-          "https://khodaryonline.com//storage/category/3/N2Ahhm734tcoictpFcGeiQlmkwo62V5BGzKsgmfo.jpg"),
-];

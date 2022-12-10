@@ -11,6 +11,8 @@ class HomeProvider extends ChangeNotifier {
 
   Future<ProductsResponse?> getProducts() async {
     print("Getting Products");
+
+    notifyListeners();
     try {
       productsModel = await homeRepo?.getProducts();
       if (productsModel != null) {
@@ -19,6 +21,7 @@ class HomeProvider extends ChangeNotifier {
       notifyListeners();
     } on DioError catch (error) {
       printError(error);
+      notifyListeners();
     }
     notifyListeners();
     return productsModel;
@@ -27,7 +30,7 @@ class HomeProvider extends ChangeNotifier {
 
 final productsProvider = FutureProvider<ProductsResponse?>((ref) async {
   ProductsResponse? model = await ref.read(homeProvider.notifier).getProducts();
-  
+
   return model!;
 });
 
