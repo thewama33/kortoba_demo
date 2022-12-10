@@ -7,12 +7,12 @@ import '../repos/home_repo.dart';
 
 class HomeProvider extends ChangeNotifier {
   HomeRepo? homeRepo = HomeRepo();
-ProductsModel? productsModel;
+  ProductsResponse? productsModel;
 
-  Future<ProductsModel?> getProducts() async {
+  Future<ProductsResponse?> getProducts() async {
+    print("Getting Products");
     try {
-      //print(loginRepo.requestLogin(email,password));
-       productsModel = await homeRepo?.getHome();
+      productsModel = await homeRepo?.getProducts();
       if (productsModel != null) {
         return productsModel;
       }
@@ -24,6 +24,12 @@ ProductsModel? productsModel;
     return productsModel;
   }
 }
+
+final productsProvider = FutureProvider<ProductsResponse?>((ref) async {
+  ProductsResponse? model = await ref.read(homeProvider.notifier).getProducts();
+  
+  return model!;
+});
 
 final homeProvider = ChangeNotifierProvider<HomeProvider>((ref) {
   return HomeProvider();

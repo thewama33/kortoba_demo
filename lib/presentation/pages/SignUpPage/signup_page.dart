@@ -9,16 +9,9 @@ import '../../components/base/default_button.dart';
 
 import '../../components/base/titled_text_formfield.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
-
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<SignUpPage> {
+class SignUpPage extends StatelessWidget {
   GlobalKey<FormState> _textFormState = GlobalKey<FormState>();
-
+  static const routeName = "/signUpPage";
   bool obscureText = true;
 
   var maxSpacer = 48.verticalSpace;
@@ -33,9 +26,7 @@ class _LoginScreenState extends State<SignUpPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: kTextColor,
-          onPressed: () {
-            printDone("Gone Back");
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
@@ -125,9 +116,7 @@ class _LoginScreenState extends State<SignUpPage> {
                         size: 28,
                       ),
                       onPressed: () {
-                        setState(() {
-                          obscureText = !obscureText;
-                        });
+                        obscureText = !obscureText;
                       },
                     ),
                     height: 80.h,
@@ -151,9 +140,7 @@ class _LoginScreenState extends State<SignUpPage> {
                         size: 28,
                       ),
                       onPressed: () {
-                        setState(() {
-                          obscureText = !obscureText;
-                        });
+                        obscureText = !obscureText;
                       },
                     ),
                     height: 80.h,
@@ -169,7 +156,7 @@ class _LoginScreenState extends State<SignUpPage> {
                   DefaultButton(
                     text: AppStrings.buttonSignUp,
                     onPressed: () {
-                       if (_textFormState.currentState!.validate()) {}
+                      if (_textFormState.currentState!.validate()) {}
                     },
                   ),
                   minSpacer,
@@ -177,9 +164,7 @@ class _LoginScreenState extends State<SignUpPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () {
-                         
-                        },
+                        onPressed: ()=> Navigator.pop(context),
                         child: Text(
                           AppStrings.buttonSignIn,
                           style: textTheme().headline1,

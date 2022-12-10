@@ -1,12 +1,12 @@
-class ProductsModel {
+class ProductsResponse {
   int? count;
   Null? next;
   Null? previous;
   List<Results>? results;
 
-  ProductsModel({this.count, this.next, this.previous, this.results});
+  ProductsResponse({this.count, this.next, this.previous, this.results});
 
-  ProductsModel.fromJson(Map<String, dynamic> json) {
+  ProductsResponse.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     next = json['next'];
     previous = json['previous'];

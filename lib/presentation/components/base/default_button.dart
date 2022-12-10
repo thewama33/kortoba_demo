@@ -1,57 +1,36 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/appTheme.dart';
 
 class DefaultButton extends StatelessWidget {
-  DefaultButton({
-    Key? key,
-    required this.text,
-    required this.onPressed,
-    this.color,
-  }) : super(key: key);
-  
+  DefaultButton(
+      {Key? key,
+      required this.text,
+      this.width,
+      this.height,
+      this.color,
+      this.onPressed})
+      : super(key: key);
+
   final String? text;
+  final double? width;
+  final double? height;
   void Function()? onPressed;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 50.h,
+      width: width ?? double.infinity,
+      height: height ?? 50.h,
       child: ElevatedButton(
         style: TextButton.styleFrom(
           backgroundColor: color,
         ),
         onPressed: onPressed,
-        child: Text(
-          text!,
-          style: textTheme().button
-        ),
-      ),
-    );
-  }
-}
-
-class OutlineDefaultButton extends StatelessWidget {
-  const OutlineDefaultButton({Key? key, this.text, this.onPressed, this.color})
-      : super(key: key);
-  final String? text;
-  final Function? onPressed;
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 50.h,
-      child: OutlinedButton(
-        style: TextButton.styleFrom(
-          textStyle: formFieldStyle(),
-        ),
-        onPressed: onPressed as void Function()?,
-        child: Text(text!, style: Theme.of(context).textTheme.headline5),
+        child: Text(text!, style: textTheme().button),
       ),
     );
   }

@@ -13,3 +13,4 @@ const grey = Color.fromRGBO(97, 97, 97, 1);
 const darkWhite = Color.fromRGBO(246, 246, 246, 1);
 
 const kAnimationDuration = Duration(milliseconds: 250);
+const grads = LinearGradient(colors: [Color(0xff4338CA), Color(0xff6D28D9)]);

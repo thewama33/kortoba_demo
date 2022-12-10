@@ -40,10 +40,10 @@ class NetworkManager {
   }
 
   void _updateHeaders() {
-    print("hereeeeee");
+    print("Updateing Header");
     if (AppCache.instance.getApiToken() != null) {
       String? token = AppCache.instance.getApiToken()!;
-      print("token");
+      print("Getting Token");
       print(token);
       if (token != null) {
         headers['Authorization'] = "Bearer $token";

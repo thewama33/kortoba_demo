@@ -11,28 +11,19 @@ class CategoryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var provier = ref.read(categoryProvider);
+    var provier = ref.read(categoryProvider).categoryResponseModel;
 
     return Scaffold(
-      body: FutureBuilder<CategoryResponseModel?>(
-          future: provier.getCategory(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-             CategoryResponseModel dataCateg = snapshot.data;
-              return  ListView(
+      body: ListView(
                 children: [
                   ...List.generate(
-                      dataCateg.results!.length,
+                      provier?.results!.length ?? 0,
                       (index) => CategoryListItem(
-                          imageUrl: dataCateg.results![index].imageLink,
-                          name: dataCateg.results![index].name,
-                          id: dataCateg.results![index].id.toString()))
+                          imageUrl: provier?.results![index].imageLink,
+                          name: provier?.results![index].name,
+                          id: provier?.results![index].id.toString()))
                 ],
-              );
-            }
-
-            return const Center(child: CircularProgressIndicator(backgroundColor: kPrimaryColor,));
-          }),
+              )
     );
   }
 }

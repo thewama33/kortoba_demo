@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kortoba_demo/core/colors.dart';
 import 'package:kortoba_demo/core/end_points.dart';
+import 'package:kortoba_demo/main.dart';
+import 'package:kortoba_demo/presentation/pages/SignUpPage/signup_page.dart';
 import 'package:kortoba_demo/providers/login_provider.dart';
 
 import '../../../core/appStrings.dart';
@@ -9,14 +12,17 @@ import '../../../core/appTheme.dart';
 import '../../../core/debug_prints.dart';
 import '../../../services/local/persistence.dart';
 import '../../components/base/default_button.dart';
+import '../../components/base/overlays.dart';
 import '../../components/base/titled_text_formfield.dart';
-
-
 
 class LoginPage extends ConsumerWidget {
   LoginPage({super.key});
 
+  static const routeName = "/loginPage";
+
   final GlobalKey<FormState> _textFormState = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool obscureText = true;
@@ -58,10 +64,7 @@ class LoginPage extends ConsumerWidget {
                     AppStrings.signInSubTitle,
                     style: textTheme().headline2,
                   ),
-                  Text(
-                    AppCache.instance.getApiToken() ?? 'No Token',
-                    style: textTheme().headline2,
-                  ),
+                  
                   maxSpacer,
                   InputFieldWidget(
                     labeltext: AppStrings.userName,
@@ -70,13 +73,9 @@ class LoginPage extends ConsumerWidget {
                     controller: usernameController,
                     lines: 1,
                     obscure: false,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.emailAddress,
+                    validation: true,
                     validationText: AppStrings.validationError,
-                    onChanged: (text) {
-                      usernameController.text = text;
-
-                      printInfo(usernameController.text);
-                    },
                   ),
                   minSpacer,
                   InputFieldWidget(
@@ -100,17 +99,15 @@ class LoginPage extends ConsumerWidget {
                     obscure: obscureText,
                     keyboardType: TextInputType.text,
                     validationText: AppStrings.validationError,
-                    onChanged: (text) {
-                      passwordController.text = text;
-                      printInfo(passwordController.text);
-                    },
+                    
                   ),
                   minSpacer,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(
+                            context, SignUpPage.routeName),
                         child: Text(
                           AppStrings.buttonSignUp,
                           style: textTheme().headline1,
@@ -130,12 +127,24 @@ class LoginPage extends ConsumerWidget {
                   DefaultButton(
                     text: AppStrings.buttonSignIn,
                     onPressed: () {
-                      print(usernameController.text);
-                      print(passwordController.text);
-                      print(Endpoints.POST_LOGIN_API);
+                  
 
-                      provider.requestLogin(
-                          usernameController.text, passwordController.text);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          Overlays.snackBarCustom(
+                              true, "Logging In", kPrimaryColor));
+                      provider
+                          .requestLogin(
+                              usernameController.text, passwordController.text)
+                          .then((value) {
+                        if (value == true) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, MainScreen.routeName, (route) => false);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              Overlays.snackBarCustom(
+                                  false, "Please Try Again..", Colors.red));
+                        }
+                      });
                     },
                   ),
                   minSpacer,

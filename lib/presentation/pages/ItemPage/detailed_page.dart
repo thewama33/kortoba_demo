@@ -7,6 +7,7 @@ import 'package:kortoba_demo/presentation/components/base/default_button.dart';
 
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key});
+  static const routeName = "/detailed_page";
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
@@ -15,6 +16,7 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage>
     with TickerProviderStateMixin {
   _ProductDetailPageState();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +45,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverAppBar(
-                   
-                   
                     stretch: true,
                     centerTitle: true,
                     expandedHeight: 300.h,

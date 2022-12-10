@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kortoba_demo/core/colors.dart';
 import 'package:kortoba_demo/providers/category_provider.dart';
 
 import '../../../models/CategoryModel/category_item_model.dart';
@@ -13,41 +14,35 @@ class CategoryItemsData extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var provider = ref.read(categoryProvider);
+    var provider = ref.read(categItemProvider);
     return Scaffold(
       body: Container(
-        child: Center(
-          child: FutureBuilder<CategoryItemModel?>(
-            future: provider.getCategoriesByID(id),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                CategoryItemModel categID = snapshot.data;
-                return Column(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: categID.imageLink!,
-                      height: 250.h,
-                      fit: BoxFit.cover,
-                    ),
-                    ListTile(
-                      title: Text(categID.name!),
-                      subtitle: Text(categID.description!),
-                      leading: Text("${categID.id}"),
-                      trailing: Text("${categID.price}"),
-                    )
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
-                );
-              }
-
-              return CircularProgressIndicator();
-            },
-          ),
+          child: Center(
+              child: provider.when(
+        data: (data) {
+          return Column(
+            children: [
+              CachedNetworkImage(
+                imageUrl: data.imageLink!,
+                height: 250.h,
+                fit: BoxFit.cover,
+              ),
+              ListTile(
+                title: Text(data.name!),
+                subtitle: Text(data.description!),
+                leading: Text("${data.id}"),
+                trailing: Text("${data.price}"),
+              )
+            ],
+          );
+        },
+        error: (error, stackTrace) {
+          return Text("${error}");
+        },
+        loading: () => const CircularProgressIndicator(
+          backgroundColor: kPrimaryColor,
         ),
-      ),
+      ))),
     );
   }
 }
