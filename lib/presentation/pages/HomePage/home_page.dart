@@ -52,8 +52,7 @@ class HomePage extends StatelessWidget {
         HomeCategoryList(),
 
         const CategoryTitle(title: 'الاكثر شعبيه', trailingTitle: 'شاهد الكل'),
-        // const HomePopularList(),
-        const FlashSale(),
+        const HomePopularList(),
          const DiscountBanner(),
         const CategoryTitle(title: 'تخفيضات', trailingTitle: 'شاهد الكل'),
         const FlashSale(),
