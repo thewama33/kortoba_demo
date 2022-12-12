@@ -9,18 +9,21 @@ class Overlays {
     bool isLoading,
     String msg,
     Color backcolor,
+    
   ) {
     return SnackBar(
       content: ListTile(
+        
         title: Text(
           msg,
-          style: textTheme().headline1,
+          style: textTheme().headline1?.copyWith(color: Colors.white,fontFamily: "Tajawal",fontWeight: FontWeight.bold),
         ),
         leading: isLoading
             ? const CircularProgressIndicator(backgroundColor: kPrimaryColor)
             : null,
       ),
       backgroundColor: backcolor,
+      duration: const Duration(seconds: 10),
       behavior: SnackBarBehavior.floating,
       padding: REdgeInsets.all(9),
     );
@@ -69,10 +72,10 @@ class DialogUI extends StatelessWidget {
               ),
             ),
             verticalSpace,
-            const Text("Please Wait?",
+             Text("Please Wait?",
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold)),
 
             // verticalSpace,

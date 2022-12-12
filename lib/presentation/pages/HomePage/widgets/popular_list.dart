@@ -19,7 +19,7 @@ class HomePopularList extends StatelessWidget {
       final state = ref.watch(homeProvider);
       if (state is ProductsLoaded) {
         return SizedBox(
-          height: 200.h,
+          height: 350.h,
           child: ListView.builder(
             shrinkWrap: true,
             addAutomaticKeepAlives: true,
@@ -35,12 +35,14 @@ class HomePopularList extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context, CupertinoPageRoute(
                     builder: (context) {
-                      return DetailsScreen(productsResponse: state.itemModel!.results![i],);
+                      return DetailsScreen(
+                        index: i,
+                      );
                     },
                   ));
                 },
                 child: AspectRatio(
-                  aspectRatio: 16 / 9,
+                  aspectRatio: .8,
                   child: Container(
                     margin: REdgeInsets.all(8),
                     decoration: BoxDecoration(
@@ -48,71 +50,68 @@ class HomePopularList extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: CachedNetworkImage(
-                                width: 100,
-                                height: 150,
-                                fit: BoxFit.cover,
-                                imageUrl:
-                                    "${state.itemModel!.results![i].imageLink}"),
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: CachedNetworkImage(
+                                  width: 100,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                  imageUrl:
+                                      "${state.itemModel!.results![i].imageLink}"),
+                            ),
                           ),
-                          20.horizontalSpace,
-                          Column(
+                          Text(
+                            state.itemModel!.results![i].name!.capitalize(),
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "${state.itemModel?.results?[i].category?.name}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.itemModel!.results![i].name!.capitalize(),
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "${state.itemModel?.results?[i].category?.name}",
+                                "${state.itemModel?.results?[i].rate}",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.sp,
-                                    fontWeight: FontWeight.normal),
+                                    fontWeight: FontWeight.w100),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "${state.itemModel?.results?[i].rate}",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w100),
-                                  ),
-                                  const Icon(
-                                    Icons.star,
-                                    color: kSecondaryColor,
-                                    size: 20,
-                                  )
-                                ],
+                              const Icon(
+                                Icons.star,
+                                color: kSecondaryColor,
+                                size: 20,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "${price.toInt()} جنيه",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "${price.toInt()} جنيه",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.add,
-                                      color: kSecondaryColor,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ],
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.add,
+                                  color: kSecondaryColor,
+                                ),
+                                onPressed: () {},
                               ),
                             ],
                           ),
@@ -141,4 +140,3 @@ class HomePopularList extends StatelessWidget {
     }));
   }
 }
-

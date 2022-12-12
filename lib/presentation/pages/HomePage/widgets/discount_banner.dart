@@ -28,6 +28,7 @@ class DiscountBanner extends StatelessWidget {
           child: Text.rich(
             TextSpan(
               style: TextStyle(color: Colors.white),
+              
               children: [
                 TextSpan(text: "مفاجآه الشتا\n"),
                 TextSpan(

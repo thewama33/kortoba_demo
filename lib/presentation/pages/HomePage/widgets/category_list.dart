@@ -62,12 +62,7 @@ class HomeCategoryList extends StatelessWidget {
               },
             );
           } else if (state is CategoryError) {
-            showDialog(
-              context: context,
-              builder: (context) => Overlays.showDialogMessage(
-                  DialogUI()),
-            );
-            return Center(child: Text(""));
+            return Center(child: Text(state.message!));
           } else {
             return const Center(
               child: CircularProgressIndicator(

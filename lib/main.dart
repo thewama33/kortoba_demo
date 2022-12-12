@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kortoba_demo/presentation/components/base/overlays.dart';
+import 'package:kortoba_demo/providers/CartProvider/cart_provider.dart';
+import 'package:kortoba_demo/providers/LoginProvider/login_provider.dart';
+import 'package:kortoba_demo/providers/LoginProvider/login_state.dart';
 import 'core/appRoutes.dart';
 import 'core/appStrings.dart';
 import 'core/appTheme.dart';
 import 'presentation/components/base/bottom_nav_adv.dart';
-import 'presentation/pages/CartPage/cart_page.dart';
+import 'presentation/pages/CartPage/cart_screen.dart';
 import 'presentation/pages/CategoryPage/category_page.dart';
 import 'presentation/pages/FavoritePage/favorite_page.dart';
 import 'presentation/pages/HomePage/home_page.dart';
@@ -43,15 +47,31 @@ void main() async {
   });
 }
 
-class KortobaStoreApp extends StatelessWidget {
+class KortobaStoreApp extends ConsumerWidget {
   const KortobaStoreApp({super.key});
   static const routeName = "/";
 
   @override
-  Widget build(BuildContext context) {
-    return AppCache.instance.getApiToken() == null
-        ? LoginPage()
-        : const MainScreen();
+  Widget build(BuildContext context, WidgetRef ref) {
+    var state = ref.watch(loginProvider);
+    if (state is UserNonAuthenticated || state is LoginFailure) {
+      return LoginPage();
+    }
+    if (state is UserAuthenticated || AppCache.instance.getApiToken() != null) {
+      return const MainScreen();
+    }
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            30.verticalSpace,
+            const Text("Logging In..")
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -73,14 +93,15 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Consumer(builder: (context, ref, child) {
-       
+        final count = ref.watch(cartProvider).cartList;
+
         return BottomNavBarCurvedFb1(
             OnhomePress: () => goToPage(0),
             OnfavoritePress: () => goToPage(1),
             OnCartPress: () => goToPage(2),
             OnCategoryPress: () => goToPage(3),
             OnAccountPress: () => goToPage(4),
-            badgeCount: '9');
+            badgeCount: "${count?.length}");
       }),
       body: PageView(
         controller: _controller,

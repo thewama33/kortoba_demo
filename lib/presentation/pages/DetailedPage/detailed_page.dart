@@ -13,9 +13,9 @@ import 'widgets/custom_app_bar.dart';
 class DetailsScreen extends ConsumerWidget {
   static String routeName = "/details";
 
-  final Results? productsResponse;
+  final int? index;
   DetailsScreen({
-    this.productsResponse,
+    this.index,
   });
 
   @override
@@ -27,9 +27,9 @@ class DetailsScreen extends ConsumerWidget {
         backgroundColor: Color(0xFFF5F6F9),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-          child: CustomAppBar(rating: double.parse(productsResponse!.rate!)),
+          child: CustomAppBar(rating: double.parse(provider.itemModel!.results![index!].rate!)),
         ),
-        body: Body(results: provider.itemModel!.results![1]),
+        body: Body(results: provider.itemModel!.results![index!]),
       );
     }
     if (provider is ProductsError) {

@@ -4,12 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kortoba_demo/core/colors.dart';
 import 'package:kortoba_demo/presentation/components/base/form_error.dart';
 import 'package:kortoba_demo/providers/CategoryProvider/category_provider.dart';
 import 'package:kortoba_demo/providers/CategoryProvider/category_state.dart';
 
-import '../../../models/CategoryModel/category_item_model.dart';
 
 class CategoryItemData extends ConsumerStatefulWidget {
   CategoryItemData({super.key, required this.id});
@@ -64,7 +62,7 @@ class _CategoryItemDataState extends ConsumerState<CategoryItemData> {
       return FormError(errors: [state.message]);
     }else 
      {
-      return Scaffold(
+      return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }

@@ -14,7 +14,7 @@ class FlashSale extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(child: Consumer(builder: (ctxt, ref, child) {
-      final state = ref.watch(homeProvider);
+      final state = ref.read(homeProvider);
       if (state is ProductsLoaded) {
         return SizedBox(
           height: 230.h,
@@ -26,12 +26,13 @@ class FlashSale extends StatelessWidget {
             itemCount: state.itemModel!.results!.length > 3
                 ? 3
                 : state.itemModel?.results?.length,
-            itemBuilder: (context, i) {
-            
+            itemBuilder: (context, index) {
+             int i =  index + 1;
               return ProductCard(
                 product: state.itemModel!.results![i],
                 isFavorited: true,
                 aspectRetio: 1.02,
+                index: i,
               );
             },
           ),

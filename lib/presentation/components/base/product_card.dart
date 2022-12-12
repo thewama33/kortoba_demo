@@ -10,15 +10,17 @@ import '../../../core/colors.dart';
 import '../../pages/DetailedPage/detailed_page.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({
+  ProductCard({
     Key? key,
     this.width = 140,
     this.aspectRetio = 1.2,
     required this.product,
+    required this.index,
     this.isFavorited,
   }) : super(key: key);
 
   final double width, aspectRetio;
+  int index;
   final Results product;
   final isFavorited;
   @override
@@ -27,13 +29,15 @@ class ProductCard extends StatelessWidget {
       padding: EdgeInsets.only(left: 20.w),
       child: SizedBox(
         width: width.w,
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
+        child: GestureDetector(
+          onTap: () => Navigator.push(
             context,
-            CupertinoPageRoute(builder: (context) => DetailsScreen(productsResponse: product)));
-          },
-
+            CupertinoPageRoute(
+              builder: (context) => DetailsScreen(
+                index: index,
+              ),
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,7 +46,7 @@ class ProductCard extends StatelessWidget {
                 child: Container(
                   padding: REdgeInsets.all(20.r),
                   decoration: BoxDecoration(
-                    color: kSecondaryColor.withOpacity(0.1),
+                    color: kPrimaryColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Hero(
