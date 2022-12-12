@@ -2,13 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:kortoba_demo/presentation/components/base/form_error.dart';
+import 'package:kortoba_demo/presentation/components/base/overlays.dart';
 import 'package:kortoba_demo/providers/CategoryProvider/category_provider.dart';
 import 'package:kortoba_demo/providers/CategoryProvider/category_state.dart';
-import 'package:shimmer/shimmer.dart';
-
 import '../../../../core/colors.dart';
-import '../../../../models/CategoryModel/category_model.dart';
 
 class HomeCategoryList extends StatelessWidget {
   @override
@@ -64,10 +62,17 @@ class HomeCategoryList extends StatelessWidget {
               },
             );
           } else if (state is CategoryError) {
-            return Center(child: Text(state.message!));
+            showDialog(
+              context: context,
+              builder: (context) => Overlays.showDialogMessage(
+                  DialogUI()),
+            );
+            return Center(child: Text(""));
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                backgroundColor: kPrimaryColor,
+              ),
             );
           }
         },

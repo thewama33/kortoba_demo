@@ -19,6 +19,24 @@ class CategoryProvider extends StateNotifier<CategoryState> {
     getCategory();
   }
   CategoriesRepo? categoryRepo = CategoriesRepo();
+  CategoryItemModel? categItemModel;
+ 
+
+  Future<CategoryItemModel?> getCategoriesByID(int id) async {
+     state = CategoryLoading();
+    try {
+      categItemModel = await categoryRepo?.getCategoryByID(id);
+      if (categItemModel != null) {
+        state = CategoryByIDLoaded(itemModel: categItemModel);
+        return categItemModel;
+      }
+    } on DioExceptions catch (error) {
+      printError(error);
+      state = CategoryError(message: handleError(error));
+      
+    }
+    return categItemModel;
+  }
 
   Future<CategoryResponseModel?> getCategory() async {
     state = CategoryLoading();

@@ -14,7 +14,7 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(body: Consumer(
       builder: (context, ref, child) {
-        var state = ref.read(categoryProvider);
+        var state = ref.watch(categoryProvider);
 
         if (state is CategoryLoaded) {
           return ListView(
@@ -24,7 +24,7 @@ class CategoryPage extends StatelessWidget {
                   (index) => CategoryListItem(
                       imageUrl: state.itemModel?.results![index].imageLink,
                       name: state.itemModel?.results![index].name,
-                      id: state.itemModel?.results![index].id.toString()))
+                      id: state.itemModel?.results![index].id))
             ],
           );
         }

@@ -16,7 +16,7 @@ class CategoryListItem extends StatelessWidget {
 
   final String? imageUrl;
   final String? name;
-  final String? id;
+  final int? id;
   final GlobalKey _backgroundImageKey = GlobalKey();
 
   @override

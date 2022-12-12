@@ -26,9 +26,9 @@ class Overlays {
     );
   }
 
-  static Widget showDialog() {
+  static Widget showDialogMessage(Widget widget) {
     return Dialog(
-      child: DialogUI(),
+      child: widget
     );
   }
 }
