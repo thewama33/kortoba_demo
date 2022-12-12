@@ -1,40 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
-import 'package:kortoba_demo/core/end_points.dart';
 import 'package:kortoba_demo/main.dart';
 import 'package:kortoba_demo/presentation/pages/SignUpPage/signup_page.dart';
-import 'package:kortoba_demo/providers/login_provider.dart';
-
+import '../../../bloc/AuthsCubit/auths_cubit.dart';
 import '../../../core/appStrings.dart';
 import '../../../core/appTheme.dart';
-import '../../../core/debug_prints.dart';
-import '../../../services/local/persistence.dart';
 import '../../components/base/default_button.dart';
 import '../../components/base/overlays.dart';
 import '../../components/base/titled_text_formfield.dart';
 
-class LoginPage extends ConsumerWidget {
-  LoginPage({super.key});
-
+class LoginPage extends StatelessWidget {
   static const routeName = "/loginPage";
-
   final GlobalKey<FormState> _textFormState = GlobalKey<FormState>();
+
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
+
   TextEditingController usernameController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   bool obscureText = true;
 
   var maxSpacer = 48.verticalSpace;
+
   var minSpacer = 20.verticalSpace;
 
+ 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    var provider = ref.read(loginProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -64,7 +61,6 @@ class LoginPage extends ConsumerWidget {
                     AppStrings.signInSubTitle,
                     style: textTheme().headline2,
                   ),
-                  
                   maxSpacer,
                   InputFieldWidget(
                     labeltext: AppStrings.userName,
@@ -99,15 +95,14 @@ class LoginPage extends ConsumerWidget {
                     obscure: obscureText,
                     keyboardType: TextInputType.text,
                     validationText: AppStrings.validationError,
-                    
                   ),
                   minSpacer,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () => Navigator.pushNamed(
-                            context, SignUpPage.routeName),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, SignUpPage.routeName),
                         child: Text(
                           AppStrings.buttonSignUp,
                           style: textTheme().headline1,
@@ -124,27 +119,30 @@ class LoginPage extends ConsumerWidget {
                     ],
                   ),
                   maxSpacer,
-                  DefaultButton(
-                    text: AppStrings.buttonSignIn,
-                    onPressed: () {
-                  
+                  BlocConsumer<AuthsCubit, AuthsState>(
+                    listener: (context, state) {
+                      if (state is LoginSuccessState) {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, MainScreen.routeName, (route) => false);
+                      }
+                      if (state is LoginFailureState) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            Overlays.snackBarCustom(false,
+                                state.errorMessage, Colors.redAccent));
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is LoginLoadingState) {
+                        return CircularProgressIndicator();
+                      }
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          Overlays.snackBarCustom(
-                              true, "Logging In", kPrimaryColor));
-                      provider
-                          .requestLogin(
-                              usernameController.text, passwordController.text)
-                          .then((value) {
-                        if (value == true) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, MainScreen.routeName, (route) => false);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              Overlays.snackBarCustom(
-                                  false, "Please Try Again..", Colors.red));
-                        }
-                      });
+                      return DefaultButton(
+                        text: AppStrings.buttonSignIn,
+                        onPressed: () {
+                          context.read<AuthsCubit>().requestLogin(
+                              usernameController.text, passwordController.text);
+                        },
+                      );
                     },
                   ),
                   minSpacer,

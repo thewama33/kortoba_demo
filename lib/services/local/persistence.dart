@@ -15,13 +15,12 @@ class AppCache {
 
   AppCache._private();
 
- Future<void> init() async {
+  Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
   Future<void> logout() async {
-    await _prefs!.remove(_KEY_USER);
-    await _prefs!.remove(_KEY_TOKEN);
+    await _prefs!.clear();
   }
 
   void setApiToken(String? token) async {
@@ -42,5 +41,4 @@ class AppCache {
   String? getField(int id) {
     return _prefs!.getString('${_KEY_CART} ${id}');
   }
-
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kortoba_demo/bloc/AuthsCubit/auths_cubit.dart';
+import 'package:kortoba_demo/bloc/CategoryBloc/category_bloc.dart';
+import 'package:kortoba_demo/bloc/ProductsBloc/products_bloc.dart';
 import 'core/appRoutes.dart';
 import 'core/appStrings.dart';
 import 'core/appTheme.dart';
@@ -25,21 +28,32 @@ void main() async {
   ]);
 
   AppCache.instance.init().then((value) {
-    runApp(ProviderScope(
-        child: ScreenUtilInit(
-            designSize: const Size(375, 812),
-            minTextAdapt: true,
-            splitScreenMode: true,
-            builder: (context, child) {
-              return MaterialApp(
+    runApp(ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => AuthsCubit(),
+                ),
+                BlocProvider(
+                  create: (context) => ProductsBloc(),
+                ),
+                BlocProvider(
+                  create: (context) => CategoryBloc(),
+                ),
+              ],
+              child: MaterialApp(
                   locale: const Locale('ar', 'EG'),
                   title: AppStrings.appTitle,
                   debugShowCheckedModeBanner: false,
                   scaffoldMessengerKey: _scaffoldKey,
                   theme: theme(),
                   routes: AppRoutes.routes,
-                  initialRoute: KortobaStoreApp.routeName);
-            })));
+                  initialRoute: KortobaStoreApp.routeName));
+        }));
   });
 }
 
@@ -72,16 +86,13 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Consumer(builder: (context, ref, child) {
-       
-        return BottomNavBarCurvedFb1(
-            OnhomePress: () => goToPage(0),
-            OnfavoritePress: () => goToPage(1),
-            OnCartPress: () => goToPage(2),
-            OnCategoryPress: () => goToPage(3),
-            OnAccountPress: () => goToPage(4),
-            badgeCount: '9');
-      }),
+      bottomNavigationBar: BottomNavBarCurvedFb1(
+          OnhomePress: () => goToPage(0),
+          OnfavoritePress: () => goToPage(1),
+          OnCartPress: () => goToPage(2),
+          OnCategoryPress: () => goToPage(3),
+          OnAccountPress: () => goToPage(4),
+          badgeCount: '9'),
       body: PageView(
         controller: _controller,
         onPageChanged: (value) {

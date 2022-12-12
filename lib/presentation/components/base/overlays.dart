@@ -14,7 +14,7 @@ class Overlays {
       content: ListTile(
         title: Text(
           msg,
-          style: textTheme().headline1,
+          style: textTheme().headline1?.copyWith(color: Colors.white),
         ),
         leading: isLoading
             ? const CircularProgressIndicator(backgroundColor: kPrimaryColor)

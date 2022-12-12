@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kortoba_demo/bloc/AuthsCubit/auths_cubit.dart';
 import 'package:kortoba_demo/core/colors.dart';
 import 'package:kortoba_demo/presentation/components/base/default_button.dart';
 import '../../components/base/appBar.dart';
@@ -25,8 +27,7 @@ class HomePage extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             background: Column(
               children: <Widget>[
-                baseAppBar(),
-                const TopBar(),
+                baseAppBar(context),
                 SizedBox(
                   height: 20.h,
                 ),

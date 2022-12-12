@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
 import 'package:kortoba_demo/presentation/components/base/item_card.dart';
-import 'package:kortoba_demo/providers/home_provider.dart';
 
-class HomePopularList extends ConsumerWidget {
+class HomePopularList extends StatelessWidget {
   const HomePopularList({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var provider = ref.read(productsProvider);
+  Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-        child: provider.whenOrNull(
-      data: (data) => SocialPictureGroup(
-        width: 100.w,
-        color: kPrimaryColor,
-        onTap: () {},
-        imgUrl: data!.results![0].imageLink!,
-        title: data.results![0].name!,
-      ),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stackTrace) => Text(error.toString()),
-    ));
+      child: Container(),
+    );
+    //     child: provider.whenOrNull(
+    //   data: (data) => SocialPictureGroup(
+    //     width: 100.w,
+    //     color: kPrimaryColor,
+    //     onTap: () {},
+    //     imgUrl: data!.results![0].imageLink!,
+    //     title: data.results![0].name!,
+    //   ),
+    //   loading: () => const Center(child: CircularProgressIndicator()),
+    //   error: (error, stackTrace) => Text(error.toString()),
+    // ));
   }
 }
 

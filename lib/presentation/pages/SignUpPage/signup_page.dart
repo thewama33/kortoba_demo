@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../bloc/AuthsCubit/auths_cubit.dart';
 import '../../../core/appStrings.dart';
 import '../../../core/appTheme.dart';
 import '../../../core/colors.dart';
-import '../../../core/debug_prints.dart';
 import '../../components/base/default_button.dart';
 
 import '../../components/base/titled_text_formfield.dart';
@@ -16,6 +16,15 @@ class SignUpPage extends StatelessWidget {
 
   var maxSpacer = 48.verticalSpace;
   var minSpacer = 20.verticalSpace;
+
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _userEmailController = TextEditingController();
+  final TextEditingController _userFirstNameController =
+      TextEditingController();
+  final TextEditingController _userLastNameController = TextEditingController();
+  final TextEditingController _userPasswordController = TextEditingController();
+  final TextEditingController _userConfirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +70,10 @@ class SignUpPage extends StatelessWidget {
                     labeltext: AppStrings.userName,
                     height: 80.h,
                     width: size.width - 60,
-                    controller: null,
+                    controller: _userNameController,
                     lines: 1,
                     obscure: false,
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.text,
                     validation: true,
                     validationText: AppStrings.validationError,
                   ),
@@ -73,7 +82,7 @@ class SignUpPage extends StatelessWidget {
                     labeltext: AppStrings.email,
                     height: 80.h,
                     width: size.width - 60,
-                    controller: null,
+                    controller: _userEmailController,
                     lines: 1,
                     obscure: false,
                     keyboardType: TextInputType.emailAddress,
@@ -85,7 +94,7 @@ class SignUpPage extends StatelessWidget {
                     labeltext: AppStrings.firstName,
                     height: 80.h,
                     width: size.width - 60,
-                    controller: null,
+                    controller: _userFirstNameController,
                     lines: 1,
                     obscure: false,
                     keyboardType: TextInputType.text,
@@ -97,7 +106,7 @@ class SignUpPage extends StatelessWidget {
                     labeltext: AppStrings.lastName,
                     height: 80.h,
                     width: size.width - 60,
-                    controller: null,
+                    controller: _userLastNameController,
                     lines: 1,
                     obscure: false,
                     keyboardType: TextInputType.text,
@@ -121,7 +130,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     height: 80.h,
                     width: size.width - 60,
-                    controller: null,
+                    controller: _userPasswordController,
                     lines: 1,
                     obscure: obscureText,
                     keyboardType: TextInputType.text,
@@ -145,7 +154,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     height: 80.h,
                     width: size.width - 60,
-                    controller: null,
+                    controller: _userConfirmPasswordController,
                     lines: 1,
                     obscure: obscureText,
                     keyboardType: TextInputType.text,
@@ -153,10 +162,19 @@ class SignUpPage extends StatelessWidget {
                     validationText: AppStrings.validationError,
                   ),
                   maxSpacer,
-                  DefaultButton(
-                    text: AppStrings.buttonSignUp,
-                    onPressed: () {
-                      if (_textFormState.currentState!.validate()) {}
+                  BlocConsumer<AuthsCubit, AuthsState>(
+                    listener: (context, state) {
+                      // TODO: implement listener
+                    },
+                    builder: (context, state) {
+                      return DefaultButton(
+                        text: AppStrings.buttonSignUp,
+                        onPressed: () {
+                          if (_textFormState.currentState!.validate()) {
+                            
+                          }
+                        },
+                      );
                     },
                   ),
                   minSpacer,
@@ -164,7 +182,7 @@ class SignUpPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: ()=> Navigator.pop(context),
+                        onPressed: () => Navigator.pop(context),
                         child: Text(
                           AppStrings.buttonSignIn,
                           style: textTheme().headline1,
