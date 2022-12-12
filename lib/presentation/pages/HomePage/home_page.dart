@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
 
         const CategoryTitle(title: 'الاكثر شعبيه', trailingTitle: 'شاهد الكل'),
         const HomePopularList()
-        // HomePopularList(),
       ],
     ));
   }

@@ -26,7 +26,7 @@ class CategoryListItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CategoryItemsData(id: int.parse(id!),),
+              builder: (context) => CategoryItemData(id:id!),
             ));
       },
       child: RPadding(

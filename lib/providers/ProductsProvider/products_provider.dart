@@ -1,39 +1,39 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kortoba_demo/core/debug_prints.dart';
 import 'package:kortoba_demo/models/ProductsModel/products_model.dart';
-import '../repos/home_repo.dart';
+import 'package:kortoba_demo/services/network/network_exceptions.dart';
 
-class HomeProvider extends ChangeNotifier {
-  HomeRepo? homeRepo = HomeRepo();
+import '../../repos/home_repo.dart';
+import 'products_state.dart';
+
+class HomeProvider extends StateNotifier<ProductsState> {
+  final HomeRepo? homeRepo = HomeRepo();
   ProductsResponse? productsModel;
+
+  HomeProvider() : super(ProductsInitial()) {
+    getProducts();
+  }
 
   Future<ProductsResponse?> getProducts() async {
     print("Getting Products");
 
-    notifyListeners();
+    state = ProductsLoading();
     try {
       productsModel = await homeRepo?.getProducts();
       if (productsModel != null) {
+        state = ProductsLoaded(itemModel: productsModel);
         return productsModel;
       }
-      notifyListeners();
     } on DioError catch (error) {
-      printError(error);
-      notifyListeners();
+      state = ProductsError(message: handleError(error));
+      printError(handleError(error));
     }
-    notifyListeners();
+
     return productsModel;
   }
 }
 
-final productsProvider = FutureProvider<ProductsResponse?>((ref) async {
-  ProductsResponse? model = await ref.read(homeProvider.notifier).getProducts();
-
-  return model!;
-});
-
-final homeProvider = ChangeNotifierProvider<HomeProvider>((ref) {
+final homeProvider = StateNotifierProvider((ref) {
   return HomeProvider();
 });

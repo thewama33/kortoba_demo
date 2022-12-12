@@ -3,46 +3,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
-import 'package:kortoba_demo/providers/category_provider.dart';
+import 'package:kortoba_demo/providers/CategoryProvider/category_by_Id.dart';
+import 'package:kortoba_demo/providers/CategoryProvider/category_provider.dart';
+import 'package:kortoba_demo/providers/CategoryProvider/category_state.dart';
 
 import '../../../models/CategoryModel/category_item_model.dart';
 
-class CategoryItemsData extends ConsumerWidget {
-  CategoryItemsData({super.key, required this.id});
+class CategoryItemData extends ConsumerStatefulWidget {
+  CategoryItemData({super.key, required this.id});
 
-  int id;
+  String id;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var provider = ref.read(categItemProvider);
-    return Scaffold(
-      body: Container(
-          child: Center(
-              child: provider.when(
-        data: (data) {
-          return Column(
-            children: [
-              CachedNetworkImage(
-                imageUrl: data.imageLink!,
-                height: 250.h,
-                fit: BoxFit.cover,
-              ),
-              ListTile(
-                title: Text(data.name!),
-                subtitle: Text(data.description!),
-                leading: Text("${data.id}"),
-                trailing: Text("${data.price}"),
-              )
-            ],
-          );
-        },
-        error: (error, stackTrace) {
-          return Text("${error}");
-        },
-        loading: () => const CircularProgressIndicator(
-          backgroundColor: kPrimaryColor,
-        ),
-      ))),
-    );
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CategoryItemDataState();
+}
+
+class _CategoryItemDataState extends ConsumerState<CategoryItemData> {
+  @override
+  void initState() {
+    ref.read(categItemProvider).getCategoriesByID(int.parse(widget.id));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(categItemProvider);
+
+    if (state.categItemModel != null) {
+      return Scaffold(
+          body: Container(
+        child: Center(
+            child: Column(
+          children: [
+            CachedNetworkImage(
+              imageUrl: state.categItemModel!.imageLink!,
+              height: 250.h,
+              fit: BoxFit.cover,
+            ),
+            ListTile(
+              title: Text(state.categItemModel!.name!),
+              subtitle: Text(state.categItemModel!.description!),
+              leading: Text("${state.categItemModel!.id}"),
+              trailing: Text("${state.categItemModel!.price}"),
+            )
+          ],
+        )),
+      ));
+    }
+    return CircularProgressIndicator();
   }
 }

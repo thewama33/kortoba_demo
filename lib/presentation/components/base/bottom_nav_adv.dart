@@ -38,6 +38,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
 
     return BottomAppBar(
       color: Colors.transparent,
+      
       elevation: 0,
       child: Stack(
         children: [
