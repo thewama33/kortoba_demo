@@ -13,7 +13,7 @@ class ProductDescription extends StatelessWidget {
     this.pressOnSeeMore,
   }) : super(key: key);
 
-  final Results results;
+  final ProductsResults results;
   final GestureTapCallback? pressOnSeeMore;
 
   @override
@@ -31,25 +31,18 @@ class ProductDescription extends StatelessWidget {
         Align(
           alignment: Alignment.centerRight,
           child: Container(
-            padding: EdgeInsets.all(15.w),
-            width: 64.w,
-            decoration: BoxDecoration(
-              color: results.rate!.isNotEmpty
-                  ? Color(0xFFFFE6E6)
-                  : Color(0xFFF5F6F9),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
+              padding: EdgeInsets.all(15.w),
+              width: 64.w,
+              decoration: BoxDecoration(
+                color: results.rate!.isNotEmpty
+                    ? Color(0xFFFFE6E6)
+                    : Color(0xFFF5F6F9),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
               ),
-            ),
-            child: SvgPicture.asset(
-              "assets/icons/heart_icon2.svg",
-              color: results.rate!.isNotEmpty
-                  ? Color(0xFFFF4848)
-                  : Color(0xFFDBDEE4),
-              height: 16.h,
-            ),
-          ),
+              child: Icon(Icons.favorite)),
         ),
         Padding(
           padding: EdgeInsets.only(

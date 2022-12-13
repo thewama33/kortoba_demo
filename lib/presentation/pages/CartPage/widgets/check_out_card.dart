@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kortoba_demo/core/appTheme.dart';
 
 import '../../../../core/colors.dart';
-import '../../../../models/CategoryModel/category_model.dart';
 import '../../../components/base/default_button.dart';
 
 class CheckoutCard extends StatelessWidget {
-   CheckoutCard({
-    Key? key,
-   required this.totalCosts
-  }) : super(key: key);
+  CheckoutCard({Key? key, required this.totalCosts}) : super(key: key);
 
   double totalCosts = 0;
- 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +20,7 @@ class CheckoutCard extends StatelessWidget {
       // height: 174,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:const  BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
@@ -44,18 +40,23 @@ class CheckoutCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: REdgeInsets.all(10.r),
-                  height: 40.h,
-                  width: 40.w,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F6F9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: SvgPicture.asset("assets/icons/receipt.svg"),
-                ),
+                    padding: REdgeInsets.all(10.r),
+                    height: 40.h,
+                    width: 40.w,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF5F6F9),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      Icons.receipt,
+                      size: 22.r,
+                    )),
                 const Spacer(),
-                const Text("Add voucher code"),
-                const SizedBox(width: 10),
+                const Text(
+                  "Add voucher code",
+                  maxLines: 2,
+                ),
+                10.horizontalSpace,
                 const Icon(
                   Icons.arrow_forward_ios,
                   size: 12,
@@ -63,25 +64,27 @@ class CheckoutCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 20.h),
+            20.verticalSpace,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                 Text.rich(
-                  TextSpan(
-                    text: "Total:\n",
-                    children: [
-                      TextSpan(
-                        text: "$totalCosts",
-                        style: const TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      "الاجمالي $totalCosts",
+                      style: textTheme().headline1?.copyWith(fontSize: 18.sp),
+                    ),
+                    10.verticalSpace,
+                    Text(
+                      "الضريبة : ${(totalCosts * 0.14).ceilToDouble()}",
+                      style: textTheme().headline1?.copyWith(fontSize: 18.sp),
+                    ),
+                  ],
                 ),
                 DefaultButton(
                   text: "Check Out",
                   height: 80.h,
-                  width: 80.w,
+                  width: 200.w,
                   onPressed: () {},
                 ),
               ],

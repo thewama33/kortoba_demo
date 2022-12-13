@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
 import 'package:kortoba_demo/core/extentions.dart';
 import 'package:kortoba_demo/presentation/pages/DetailedPage/detailed_page.dart';
+import 'package:kortoba_demo/providers/CartProvider/cart_provider.dart';
 
 import '../../../../providers/ProductsProvider/products_provider.dart';
 import '../../../../providers/ProductsProvider/products_state.dart';
@@ -17,9 +18,10 @@ class HomePopularList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(child: Consumer(builder: (ctxt, ref, child) {
       final state = ref.watch(homeProvider);
+      final provider = ref.watch(cartProvider);
       if (state is ProductsLoaded) {
         return SizedBox(
-          height: 350.h,
+          height: 370.h,
           child: ListView.builder(
             shrinkWrap: true,
             addAutomaticKeepAlives: true,
@@ -42,81 +44,111 @@ class HomePopularList extends StatelessWidget {
                   ));
                 },
                 child: AspectRatio(
-                  aspectRatio: .8,
+                  aspectRatio: 0.6,
                   child: Container(
-                    margin: REdgeInsets.all(8),
+                    margin: REdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        gradient: grads,
+                        border: Border.all(color: kPrimaryColor),
                         borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 8),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: CachedNetworkImage(
-                                  width: 100,
+                                  width: 230,
                                   height: 150,
                                   fit: BoxFit.cover,
                                   imageUrl:
                                       "${state.itemModel!.results![i].imageLink}"),
                             ),
                           ),
-                          Text(
-                            state.itemModel!.results![i].name!.capitalize(),
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${state.itemModel?.results?[i].category?.name}",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.normal),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "${state.itemModel?.results?[i].rate}",
+                                state.itemModel!.results![i].name!.capitalize(),
+                                overflow: TextOverflow.clip,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w100),
+                                    color: kTextColor,
+                                    fontSize: 22.sp,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              const Icon(
-                                Icons.star,
-                                color: kSecondaryColor,
-                                size: 20,
-                              )
+                              Text(
+                                "${state.itemModel?.results?[i].category?.name}",
+                                style: TextStyle(
+                                    color: kTextColor,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 18),
+                                child: Row(
+                                  children: [
+                                    const Spacer(),
+                                    Text(
+                                      "${state.itemModel?.results?[i].rate}",
+                                      style: TextStyle(
+                                          color: kTextColor,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w100),
+                                    ),
+                                    const Icon(
+                                      Icons.star,
+                                      color: kSecondaryColor,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                          Row(
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18),
+                          child: Row(
                             children: [
                               Text(
                                 "${price.toInt()} جنيه",
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: kTextColor,
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.bold),
                               ),
+                              const Spacer(),
                               IconButton(
-                                icon: const Icon(
-                                  Icons.add,
+                                icon: Icon(
+                                  provider.isAddedToCart(
+                                          state.itemModel!.results![i])
+                                      ? Icons.done_outline
+                                      : Icons.add,
                                   color: kSecondaryColor,
+                                  size: 22,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (!provider.isAddedToCart(
+                                      state.itemModel!.results![i])) {
+                                    ref.read(cartProvider).addToCart(
+                                        state.itemModel!.results![i]);
+                                  } else {
+                                    ref.read(cartProvider).removeItem(
+                                        state.itemModel!.results![i], i);
+                                  }
+                                },
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

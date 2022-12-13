@@ -2,7 +2,7 @@ class CategoryResponseModel {
   int? count;
   dynamic next;
   dynamic previous;
-  List<Results>? results;
+  List<CategoryResults>? results;
 
   CategoryResponseModel({this.count, this.next, this.previous, this.results});
 
@@ -11,9 +11,9 @@ class CategoryResponseModel {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <CategoryResults>[];
       json['results'].forEach((v) {
-        results!.add(Results.fromJson(v));
+        results!.add(CategoryResults.fromJson(v));
       });
     }
   }
@@ -30,14 +30,14 @@ class CategoryResponseModel {
   }
 }
 
-class Results {
+class CategoryResults {
   int? id;
   String? name;
   String? imageLink;
 
-  Results({this.id, this.name, this.imageLink});
+  CategoryResults({this.id, this.name, this.imageLink});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  CategoryResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     imageLink = json['image_link'];

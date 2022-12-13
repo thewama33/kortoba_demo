@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/models/ProductsModel/products_model.dart';
 
-
 class ProductImages extends StatefulWidget {
   const ProductImages({
     Key? key,
     required this.results,
   }) : super(key: key);
 
-  final Results results;
+  final ProductsResults results;
 
   @override
   _ProductImagesState createState() => _ProductImagesState();

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kortoba_demo/models/ProductsModel/products_model.dart';
 import 'package:kortoba_demo/providers/CartProvider/cart_provider.dart';
 
-import '../../../models/CartModel/cart_model.dart';
 import 'widgets/body.dart';
 import 'widgets/check_out_card.dart';
 
@@ -14,14 +13,16 @@ class CartPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(cartProvider);
     return Scaffold(
-      appBar: buildAppBar(context,provider.cartList!.length),
+      appBar: buildAppBar(context, provider.cartList!.length),
       body: Body(),
-      bottomNavigationBar: CheckoutCard(totalCosts: provider.cartTotalCost(provider.cartList!)),
+      bottomNavigationBar:
+          CheckoutCard(totalCosts: provider.cartTotalCost(provider.cartList!,)),
     );
   }
 
   AppBar buildAppBar(BuildContext context, count) {
     return AppBar(
+      centerTitle: true,
       title: Column(
         children: [
           const Text(

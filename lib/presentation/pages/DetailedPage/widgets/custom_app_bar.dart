@@ -33,9 +33,9 @@ class CustomAppBar extends StatelessWidget {
                   padding: EdgeInsets.zero,
                 ),
                 onPressed: () => Navigator.pop(context),
-                child: SvgPicture.asset(
-                  "assets/icons/back_icon.svg",
-                  height: 15,
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  size: 15,
                 ),
               ),
             ),
@@ -56,7 +56,7 @@ class CustomAppBar extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 5),
-                  SvgPicture.asset("assets/icons/star_icon.svg"),
+                  Icon(Icons.star,color: Colors.yellowAccent,),
                   const SizedBox(width: 5),
                 ],
               ),

@@ -8,7 +8,7 @@ import 'product_description.dart';
 import 'product_images.dart';
 
 class Body extends StatelessWidget {
-  final Results results;
+  final ProductsResults results;
 
   const Body({Key? key, required this.results}) : super(key: key);
 

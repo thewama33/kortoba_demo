@@ -49,10 +49,10 @@ class _CategoryItemDataState extends ConsumerState<CategoryItemData> {
               fit: BoxFit.cover,
             ),
             ListTile(
-              title: Text(state.itemModel!.name!),
-              subtitle: Text(state.itemModel!.description!),
-              leading: Text("${state.itemModel!.id}"),
-              trailing: Text("${state.itemModel!.price}"),
+              title: Text("state.itemModel!.name!"),
+              subtitle: Text("state.itemModel!.description!"),
+              leading: Text("${"state.itemModel!.id"}"),
+              trailing: Text("${"state.itemModel!.price"}"),
             )
           ],
         )),
