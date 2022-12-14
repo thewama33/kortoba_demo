@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
-import 'package:kortoba_demo/core/end_points.dart';
-import 'package:kortoba_demo/main.dart';
+import 'package:kortoba_demo/core/validations.dart';
 import 'package:kortoba_demo/presentation/pages/SignUpPage/signup_page.dart';
-import 'package:kortoba_demo/providers/login_provider.dart';
+import 'package:kortoba_demo/providers/LoginProvider/login_provider.dart';
+import 'package:kortoba_demo/providers/LoginProvider/login_state.dart';
 
 import '../../../core/appStrings.dart';
 import '../../../core/appTheme.dart';
-import '../../../core/debug_prints.dart';
-import '../../../services/local/persistence.dart';
 import '../../components/base/default_button.dart';
 import '../../components/base/overlays.dart';
 import '../../components/base/titled_text_formfield.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   static const routeName = "/loginPage";
@@ -31,11 +29,11 @@ class LoginPage extends ConsumerWidget {
   var minSpacer = 20.verticalSpace;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    var provider = ref.read(loginProvider);
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: MediaQuery(
@@ -64,7 +62,6 @@ class LoginPage extends ConsumerWidget {
                     AppStrings.signInSubTitle,
                     style: textTheme().headline2,
                   ),
-                  
                   maxSpacer,
                   InputFieldWidget(
                     labeltext: AppStrings.userName,
@@ -99,15 +96,14 @@ class LoginPage extends ConsumerWidget {
                     obscure: obscureText,
                     keyboardType: TextInputType.text,
                     validationText: AppStrings.validationError,
-                    
                   ),
                   minSpacer,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () => Navigator.pushNamed(
-                            context, SignUpPage.routeName),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, SignUpPage.routeName),
                         child: Text(
                           AppStrings.buttonSignUp,
                           style: textTheme().headline1,
@@ -124,27 +120,26 @@ class LoginPage extends ConsumerWidget {
                     ],
                   ),
                   maxSpacer,
-                  DefaultButton(
-                    text: AppStrings.buttonSignIn,
-                    onPressed: () {
-                  
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          Overlays.snackBarCustom(
-                              true, "Logging In", kPrimaryColor));
-                      provider
-                          .requestLogin(
-                              usernameController.text, passwordController.text)
-                          .then((value) {
-                        if (value == true) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, MainScreen.routeName, (route) => false);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              Overlays.snackBarCustom(
-                                  false, "Please Try Again..", Colors.red));
-                        }
-                      });
+                  Consumer(
+                    builder: (ctxt, ref, child) {
+                      return DefaultButton(
+                        text: AppStrings.buttonSignIn,
+                        onPressed: () async {
+                          if (_textFormState.currentState!.validate()) {
+                            ref
+                                .read(loginProvider.notifier)
+                                .requestLogin(usernameController.text,
+                                    passwordController.text)
+                                .then((value) {
+                              if (value == false) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    Overlays.snackBarCustom(
+                                        false, kWrongCreds, Colors.redAccent));
+                              }
+                            });
+                          }
+                        },
+                      );
                     },
                   ),
                   minSpacer,

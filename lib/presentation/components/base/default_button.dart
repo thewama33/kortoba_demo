@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kortoba_demo/core/colors.dart';
 
 import '../../../core/appTheme.dart';
 
@@ -22,9 +23,10 @@ class DefaultButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return AnimatedContainer(
       width: width ?? double.infinity,
       height: height ?? 50.h,
+      duration: kAnimationDuration,
       child: ElevatedButton(
         style: TextButton.styleFrom(
           backgroundColor: color,

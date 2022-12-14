@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:kortoba_demo/presentation/pages/FavoritePage/widgets/favorite_body.dart';
 
 
 class FavoritePage extends StatelessWidget {
@@ -7,10 +8,8 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      child: Center(
-        child: Text("Favorite"),
-      ),
+    return  Scaffold(
+      body: FavoriteBody()
     );
   }
 }

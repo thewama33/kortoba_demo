@@ -1,19 +1,24 @@
+import 'dart:math';
+
 class ProductsResponse {
   int? count;
   Null? next;
   Null? previous;
-  List<Results>? results;
+  List<ProductsResults>? results;
+
+  int get sale => rand.nextInt(50);
 
   ProductsResponse({this.count, this.next, this.previous, this.results});
 
+  Random rand = Random();
   ProductsResponse.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <ProductsResults>[];
       json['results'].forEach((v) {
-        results!.add(new Results.fromJson(v));
+        results!.add(new ProductsResults.fromJson(v));
       });
     }
   }
@@ -30,7 +35,7 @@ class ProductsResponse {
   }
 }
 
-class Results {
+class ProductsResults {
   int? id;
   String? name;
   String? imageLink;
@@ -39,7 +44,7 @@ class Results {
   String? rate;
   Category? category;
 
-  Results(
+  ProductsResults(
       {this.id,
       this.name,
       this.imageLink,
@@ -48,7 +53,7 @@ class Results {
       this.rate,
       this.category});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  ProductsResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     imageLink = json['image_link'];

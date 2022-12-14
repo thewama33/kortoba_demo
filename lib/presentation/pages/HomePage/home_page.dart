@@ -2,27 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
+import 'package:kortoba_demo/presentation/pages/HomePage/widgets/flash_sale.dart';
 import '../../components/base/appBar.dart';
 import 'widgets/category_list.dart';
 import 'widgets/category_title.dart';
+import 'widgets/discount_banner.dart';
 import 'widgets/feed_news.dart';
 import 'widgets/popular_list.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/top_bar.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,23 +36,22 @@ class _HomePageState extends State<HomePage> {
           ),
           stretch: true,
         ),
-
         SliverToBoxAdapter(
           child: SizedBox(
             height: 20.h,
           ),
         ),
-
         const FeedNews(),
         const SliverToBoxAdapter(
           child: SizedBox(height: 20),
         ),
         const CategoryTitle(title: 'التصنيفات', trailingTitle: 'شاهد الكل'),
         HomeCategoryList(),
-
+        const CategoryTitle(title: 'تخفيضات', trailingTitle: 'شاهد الكل'),
+        const HomePopularList(),
+        const DiscountBanner(),
         const CategoryTitle(title: 'الاكثر شعبيه', trailingTitle: 'شاهد الكل'),
-        const HomePopularList()
-        // HomePopularList(),
+        const FlashSale(),
       ],
     ));
   }

@@ -16,7 +16,7 @@ class CategoryListItem extends StatelessWidget {
 
   final String? imageUrl;
   final String? name;
-  final String? id;
+  final int? id;
   final GlobalKey _backgroundImageKey = GlobalKey();
 
   @override
@@ -26,7 +26,7 @@ class CategoryListItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CategoryItemsData(id: int.parse(id!),),
+              builder: (context) => CategoryItemData(id:id!),
             ));
       },
       child: RPadding(
