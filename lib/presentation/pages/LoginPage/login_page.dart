@@ -122,12 +122,12 @@ class LoginPage extends StatelessWidget {
                   maxSpacer,
                   Consumer(
                     builder: (ctxt, ref, child) {
-                      var state = ref.read(loginProvider.notifier);
                       return DefaultButton(
                         text: AppStrings.buttonSignIn,
                         onPressed: () async {
                           if (_textFormState.currentState!.validate()) {
-                            state
+                            ref
+                                .read(loginProvider.notifier)
                                 .requestLogin(usernameController.text,
                                     passwordController.text)
                                 .then((value) {

@@ -38,7 +38,6 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
 
     return BottomAppBar(
       color: Colors.transparent,
-      
       elevation: 0,
       child: Stack(
         children: [
@@ -74,8 +73,8 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               children: [
                 NavBarIcon(
                   text: "Home",
-                  icon: Icons.home_outlined,
-                  selected: true,
+                  icon: Icons.home,
+                  selected: false,
                   onPressed: widget.OnhomePress,
                   defaultColor: kSecondaryColor,
                   selectedColor: kPrimaryColor,

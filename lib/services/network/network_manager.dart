@@ -184,4 +184,30 @@ class NetworkManager {
 
     return list;
   }
+
+
+
+
+
+
+
+
+
+ Future<T?> gets<T>(String url, {Map<String, dynamic>? params}) async {
+    _updateHeaders();
+    print(headers);
+    params ??= {};
+    print(params);
+
+    Response response = await dio.get(url,
+        queryParameters: params,
+        cancelToken: cancelToken,
+        options: Options(headers: headers));
+    print(response.statusCode);
+    print("*************");
+    return parseResponse<T>(response);
+  }
+
+
+
 }

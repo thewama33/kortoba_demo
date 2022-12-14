@@ -28,6 +28,7 @@ class FlashSale extends StatelessWidget {
                 : state.itemModel?.results?.length,
             itemBuilder: (context, index) {
              int i =  index + 1;
+             
               return ProductCard(
                 product: state.itemModel!.results![i],
                 

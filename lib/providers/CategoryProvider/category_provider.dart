@@ -13,17 +13,15 @@ import 'category_state.dart';
 
 class CategoryProvider extends StateNotifier<CategoryState> {
   CategoryResponseModel? categoryResponseModel;
- 
 
   CategoryProvider() : super(CategoryInitial()) {
     getCategory();
   }
   CategoriesRepo? categoryRepo = CategoriesRepo();
   CategoryItemModel? categItemModel;
- 
 
   Future<CategoryItemModel?> getCategoriesByID(int id) async {
-     state = CategoryLoading();
+    state = CategoryLoading();
     try {
       categItemModel = await categoryRepo?.getCategoryByID(id);
       if (categItemModel != null) {
@@ -33,7 +31,6 @@ class CategoryProvider extends StateNotifier<CategoryState> {
     } on DioExceptions catch (error) {
       printError(error);
       state = CategoryError(message: handleError(error));
-      
     }
     return categItemModel;
   }
@@ -53,9 +50,18 @@ class CategoryProvider extends StateNotifier<CategoryState> {
     }
     return categoryResponseModel;
   }
-
-  
 }
+
+final categItemRepoProvider = Provider<CategoriesRepo>((ref) {
+  return CategoriesRepo();
+});
+
+final categItemIDProvider =
+    FutureProvider.family<CategoryItemModel?, int>((ref, id) async {
+  var state = ref.read(categItemRepoProvider).getCategoryByID(id);
+
+  return state;
+});
 
 final categoryProvider =
     StateNotifierProvider<CategoryProvider, CategoryState>((ref) {

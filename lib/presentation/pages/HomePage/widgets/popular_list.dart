@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
 import 'package:kortoba_demo/core/extentions.dart';
+import 'package:kortoba_demo/presentation/components/base/cached_image_network.dart';
 import 'package:kortoba_demo/presentation/pages/DetailedPage/detailed_page.dart';
 import 'package:kortoba_demo/providers/CartProvider/cart_provider.dart';
 
@@ -21,7 +22,7 @@ class HomePopularList extends StatelessWidget {
       final provider = ref.watch(cartProvider);
       if (state is ProductsLoaded) {
         return SizedBox(
-          height: 370.h,
+          height: 350.h,
           child: ListView.builder(
             shrinkWrap: true,
             addAutomaticKeepAlives: true,
@@ -47,54 +48,67 @@ class HomePopularList extends StatelessWidget {
                   aspectRatio: 0.6,
                   child: Container(
                     margin: REdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: kPrimaryColor),
-                        borderRadius: BorderRadius.circular(12)),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 8),
+                        Stack(children: [
+                          Center(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: CachedNetworkImage(
-                                  width: 230,
-                                  height: 150,
-                                  fit: BoxFit.cover,
-                                  imageUrl:
-                                      "${state.itemModel!.results![i].imageLink}"),
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    topRight: Radius.circular(8)),
+                                child: buildCacheNetworkImage(
+                                    height: 150.h,
+                                    width: 200.w,
+                                    url:
+                                        "${state.itemModel!.results![i].imageLink}")),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 10,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(6),
+                                      bottomLeft: Radius.circular(6))),
+                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                              child: Text(
+                                  "${state.itemModel?.sale.toString()}%",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12)),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.itemModel!.results![i].name!.capitalize(),
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                    color: kTextColor,
-                                    fontSize: 22.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "${state.itemModel?.results?[i].category?.name}",
-                                style: TextStyle(
-                                    color: kTextColor,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 18),
-                                child: Row(
+                        ]),
+                        Container(
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(8),
+                                  bottomRight: Radius.circular(8))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  state.itemModel!.results![i].name!
+                                      .capitalize()
+                                      .replaceAll("-", " "),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: kTextColor,
+                                      fontSize: 22.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "${state.itemModel?.results?[i].category?.name}",
+                                  style: TextStyle(
+                                      color: kTextColor,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                Row(
                                   children: [
-                                    const Spacer(),
                                     Text(
                                       "${state.itemModel?.results?[i].rate}",
                                       style: TextStyle(
@@ -109,8 +123,8 @@ class HomePopularList extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Padding(

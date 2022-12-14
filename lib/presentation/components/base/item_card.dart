@@ -59,6 +59,8 @@ class ItemCard extends StatelessWidget {
                           height: 4.0.h,
                         ),
                         Text(courseInfo,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                             style:
                                 TextStyle(fontSize: 12.sp, color: Colors.grey)),
                         20.verticalSpace,

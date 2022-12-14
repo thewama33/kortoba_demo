@@ -1,11 +1,16 @@
+import 'dart:math';
+
 class ProductsResponse {
   int? count;
   Null? next;
   Null? previous;
   List<ProductsResults>? results;
 
+  int get sale => rand.nextInt(50);
+
   ProductsResponse({this.count, this.next, this.previous, this.results});
 
+  Random rand = Random();
   ProductsResponse.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     next = json['next'];

@@ -13,7 +13,6 @@ import 'widgets/search_bar.dart';
 import 'widgets/top_bar.dart';
 
 class HomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,27 +36,22 @@ class HomePage extends StatelessWidget {
           ),
           stretch: true,
         ),
-
         SliverToBoxAdapter(
           child: SizedBox(
             height: 20.h,
           ),
         ),
-
         const FeedNews(),
         const SliverToBoxAdapter(
           child: SizedBox(height: 20),
         ),
         const CategoryTitle(title: 'التصنيفات', trailingTitle: 'شاهد الكل'),
         HomeCategoryList(),
-
-        const CategoryTitle(title: 'الاكثر شعبيه', trailingTitle: 'شاهد الكل'),
-        const HomePopularList(),
-         const DiscountBanner(),
         const CategoryTitle(title: 'تخفيضات', trailingTitle: 'شاهد الكل'),
+        const HomePopularList(),
+        const DiscountBanner(),
+        const CategoryTitle(title: 'الاكثر شعبيه', trailingTitle: 'شاهد الكل'),
         const FlashSale(),
-        
-       
       ],
     ));
   }

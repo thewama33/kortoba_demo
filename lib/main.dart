@@ -23,13 +23,16 @@ void main() async {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
 
+  final container = ProviderContainer();
+
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp
   ]);
 
   AppCache.instance.init().then((value) {
-    runApp(ProviderScope(
+    runApp(UncontrolledProviderScope(
+      container: container,
         child: ScreenUtilInit(
             designSize: const Size(375, 812),
             minTextAdapt: true,

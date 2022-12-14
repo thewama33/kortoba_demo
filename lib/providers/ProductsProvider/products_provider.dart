@@ -16,7 +16,7 @@ class HomeProvider extends StateNotifier<ProductsState> {
   }
 
   Future<ProductsResponse?> getProducts() async {
-    print("Getting Products");
+    printDone("Getting Products");
 
     state = ProductsLoading();
     try {
