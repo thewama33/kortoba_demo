@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kortoba_demo/core/colors.dart';
@@ -47,7 +47,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
           ),
           Center(
             heightFactor: 0.6,
-            child: Badge(
+            child: badges.Badge(
               badgeContent: Text(
                 '${widget.badgeCount}',
                 style: textTheme().headline1?.copyWith(color: kPrimaryColor),
@@ -57,7 +57,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               badgeColor: kSecondaryColor,
               alignment: Alignment.bottomCenter,
               toAnimate: true,
-              animationType: BadgeAnimationType.slide,
+              animationType:badges. BadgeAnimationType.slide,
               animationDuration: kAnimationDuration,
               child: FloatingActionButton(
                   backgroundColor: kPrimaryColor,
